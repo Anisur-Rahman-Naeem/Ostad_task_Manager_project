@@ -24,14 +24,14 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
               ),
               ),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Title'
                 ),
               ),
               const SizedBox(height: 8),
               TextFormField(
                 maxLines: 5,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Description'
                 ),
               ),

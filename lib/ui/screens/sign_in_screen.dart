@@ -61,7 +61,7 @@ class _SignInScreenState extends State<SignInScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ForgotPasswordScreen(),
+        builder: (context) => const ForgotPasswordScreen(),
       ),
     );
   }
@@ -91,7 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Center(
       child: RichText(
         text: TextSpan(
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 14,
@@ -100,7 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             TextSpan(
                 text: 'Sign Up',
-                style: TextStyle(color: AppColors.themeColor),
+                style: const TextStyle(color: AppColors.themeColor),
                 recognizer: TapGestureRecognizer()..onTap = _onTapSignUp),
           ],
         ),

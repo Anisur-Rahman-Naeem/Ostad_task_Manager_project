@@ -72,7 +72,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
             inactiveFillColor: Colors.white,
             selectedFillColor: Colors.white
           ),
-          animationDuration: Duration(milliseconds: 300),
+          animationDuration: const Duration(milliseconds: 300),
           backgroundColor: Colors.transparent,
           enableActiveFill: true,
           appContext: context,
@@ -91,7 +91,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
     return Center(
       child: RichText(
         text: TextSpan(
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 14,
@@ -100,7 +100,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
           children: [
             TextSpan(
                 text: 'Sign In',
-                style: TextStyle(color: AppColors.themeColor),
+                style: const TextStyle(color: AppColors.themeColor),
                 recognizer: TapGestureRecognizer()..onTap = _onTapSignIn),
           ],
         ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/forgot_password_otp_screen.dart';
-import 'package:task_manager/ui/screens/sign_in_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:flutter/gestures.dart';
@@ -73,7 +72,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Center(
       child: RichText(
         text: TextSpan(
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 14,
@@ -82,7 +81,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           children: [
             TextSpan(
                 text: 'Sign In',
-                style: TextStyle(color: AppColors.themeColor),
+                style: const TextStyle(color: AppColors.themeColor),
                 recognizer: TapGestureRecognizer()..onTap = _onTapSignIn),
           ],
         ),
