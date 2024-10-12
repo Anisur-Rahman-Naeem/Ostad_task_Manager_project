@@ -28,6 +28,7 @@ class NetworkCaller {
         isSuccess: false,
         statusCode: -1,
         errorMessage: e.toString(),
+
       );
     }
   }
