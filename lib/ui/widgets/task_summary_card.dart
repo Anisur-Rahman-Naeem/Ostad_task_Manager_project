@@ -29,7 +29,7 @@ class TaskSummaryCard extends StatelessWidget {
               ),
               FittedBox(
                 child: Text(
-                  '$title',
+                  title,
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
