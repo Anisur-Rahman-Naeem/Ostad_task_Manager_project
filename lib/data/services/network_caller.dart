@@ -45,10 +45,18 @@ class NetworkCaller {
       printResponse(url, response);
       if (response.statusCode == 200) {
         final decodedData = jsonDecode(response.body);
-        return NetworkResponse(
-            isSuccess: true,
+        if(decodedData['status'] == 'fail') {
+          return NetworkResponse(
+            isSuccess: false,
             statusCode: response.statusCode,
-            responseData: decodedData);
+            errorMessage: decodedData['data'],
+          );
+        }
+        return NetworkResponse(
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: decodedData,
+        );
       } else {
         return NetworkResponse(
           isSuccess: false,
