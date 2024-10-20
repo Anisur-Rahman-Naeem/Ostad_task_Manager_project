@@ -25,12 +25,12 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result){//todo: popscope and its topics needed to be researched
+      onPopInvokedWithResult: (didPop, result) {
+        //todo: popscope and its topics needed to be researched
         if (didPop) {
           return;
         }
-
-        Navigator.pop(context,_shouldRefreshPreviousPage);
+          Navigator.pop(context, _shouldRefreshPreviousPage);
       },
       child: Scaffold(
         appBar: const TMAppBar(),

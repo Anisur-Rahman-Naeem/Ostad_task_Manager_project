@@ -76,6 +76,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         builder: (context) => const AddNewTaskScreen(),
       ),
     );
+    if (shouldRefresh == true){
+      _getNewTaskList();
+    }
   }
 
   Widget _buildSummarySection() {
