@@ -26,7 +26,6 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        //todo: popscope and its topics needed to be researched
         if (didPop) {
           return;
         }
@@ -92,7 +91,6 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
 
   void _onTapSubmitButton() {
     if (_formKey.currentState!.validate()) {
-      //TODO: this line still needs to be cleared
       _addNewTask();
     }
   }

@@ -6,7 +6,7 @@ class TaskListModel {
 
   TaskListModel({this.status, this.taskList});
 
-  TaskListModel.fromJson(Map<String, dynamic> json) {//todo: from json function still needs to be cleared
+  TaskListModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
       taskList = <TaskModel>[];
