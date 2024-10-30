@@ -25,19 +25,23 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
     super.initState();
     _getProgressTaskList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Visibility(
       visible: !_getProgressedTaskListInProgress,
       replacement: const CenteredCircularProgressIndicator(),
       child: RefreshIndicator(
-        onRefresh: () async{
+        onRefresh: () async {
           _getProgressTaskList();
         },
         child: ListView.separated(
           itemCount: _progressedTaskList.length,
           itemBuilder: (context, index) {
-            return TaskCard(taskModel: _progressedTaskList[index],);
+            return TaskCard(
+              taskModel: _progressedTaskList[index],
+              onRefreshList: _getProgressTaskList,
+            );
           },
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(
@@ -54,10 +58,10 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
     _getProgressedTaskListInProgress = true;
     setState(() {});
     final NetworkResponse response =
-    await NetworkCaller.getRequest(url: Urls.cancelledTaskList);
+        await NetworkCaller.getRequest(url: Urls.progressTaskList);
     if (response.isSuccess) {
       final TaskListModel taskListModel =
-      TaskListModel.fromJson(response.responseData);
+          TaskListModel.fromJson(response.responseData);
       _progressedTaskList = taskListModel.taskList ?? [];
     } else {
       showSnackBarMessage(context, response.errorMessage, true);

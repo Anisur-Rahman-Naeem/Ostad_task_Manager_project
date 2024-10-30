@@ -108,7 +108,6 @@ class NetworkCaller {
     await AuthController.clearUserData();
     Navigator.pushAndRemoveUntil(
       TaskManager.navigatorKey.currentContext!,
-      //TODO : this line needs to be cleared
       MaterialPageRoute(builder: (context) => const SignInScreen()),
       (p) => false,
     );
