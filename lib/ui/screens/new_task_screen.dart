@@ -39,6 +39,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           _getNewTaskList();
+          _getTaskStatusCount();
         },
         child: Column(
           children: [
@@ -52,7 +53,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   itemBuilder: (context, index) {
                     return TaskCard(
                       taskModel: _newTaskList[index],
-                      onRefreshList: _getNewTaskList,
+                      onRefreshList: _getNewTaskListAndTaskStatusCount,
                       //todo: when onRefreshList will be triggered while the app is running (needs explanation)
                     );
                   },
@@ -85,6 +86,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
     if (shouldRefresh == true) {
       _getNewTaskList();
+      _getTaskStatusCount();
     }
   }
 
@@ -128,6 +130,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     }
     _getNewTaskListInProgress = false;
     setState(() {});
+  }
+
+  _getNewTaskListAndTaskStatusCount(){
+    _getNewTaskList();
+    _getTaskStatusCount();
   }
 
   Future<void> _getTaskStatusCount() async {
