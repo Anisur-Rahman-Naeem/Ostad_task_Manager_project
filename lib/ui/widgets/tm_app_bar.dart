@@ -30,18 +30,18 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
               backgroundColor: Colors.white,
             ),
             const SizedBox(width: 16),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rabbil Hasan',
-                    style: TextStyle(
+                    AuthController.userData?.fullName ?? '',
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
                         fontWeight: FontWeight.w600),
                   ),
-                  Text('test@gmail.com',style: TextStyle(
+                  Text(AuthController.userData?.email ?? '',style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w600),),
