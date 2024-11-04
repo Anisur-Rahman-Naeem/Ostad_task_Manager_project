@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_manager/data/models/network_response.dart';
+import 'package:task_manager/data/services/network_caller.dart';
+import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/screens/reset_password_screen.dart';
 import 'package:task_manager/ui/screens/sign_in_screen.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
+import 'package:task_manager/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:flutter/gestures.dart';
+import 'package:task_manager/ui/widgets/snack_bar_message.dart';
+
+import '../controllers/auth_controller.dart';
 
 class ForgotPasswordOtpScreen extends StatefulWidget {
   const ForgotPasswordOtpScreen({super.key});
@@ -14,6 +21,8 @@ class ForgotPasswordOtpScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
+  bool _verifyingOtpInProgress = false;
+  String? otpCode;
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -60,6 +69,9 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
       children: [
         PinCodeTextField(
           length: 6,
+          onCompleted: (value){
+            otpCode = value;
+          },
           obscureText: false,
           animationType: AnimationType.fade,
           keyboardType: TextInputType.number,
@@ -79,9 +91,13 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
 
         ),
         const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: _onTapNextButton,
-          child: const Icon(Icons.arrow_circle_right_outlined),
+        Visibility(
+          visible: _verifyingOtpInProgress == false,
+          replacement: const CenteredCircularProgressIndicator(),
+          child: ElevatedButton(
+            onPressed: _onTapNextButton,
+            child: const Icon(Icons.arrow_circle_right_outlined),
+          ),
         ),
       ],
     );
@@ -110,6 +126,20 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
 
 
   void _onTapNextButton() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> const ResetPasswordScreen(),),);
+    _verifyOtp();
+  }
+  Future<void> _verifyOtp() async {
+    _verifyingOtpInProgress = true;
+    NetworkResponse response = await NetworkCaller.getRequest(url: Urls.verifyOtpStatus(AuthController.verifiedEmailData.toString(),otpCode!));
+    _verifyingOtpInProgress = false;
+    if (response.isSuccess) {
+      await AuthController.saveotp(AuthController.verifiedEmailData.toString(),otpCode!);
+      print(AuthController.otpData);
+      showSnackBarMessage(context, 'otp verified!');
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> const ResetPasswordScreen(),),);
+
+    }else {
+      showSnackBarMessage(context, response.errorMessage);
+    }
   }
 }

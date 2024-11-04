@@ -6,9 +6,13 @@ import 'package:task_manager/data/models/user_model.dart';
 class AuthController {
   static const String _accessTokenKey = 'access-token';
   static const String _userDataKey = 'user-data';
+  static const String _verifiedEmailKey = 'verified-email';
+  static const String _otpKey = 'otp';
 
   static String? accessToken;
   static UserModel? userData;
+  static String? verifiedEmailData;
+  static String? otpData;
 
   static Future<void> saveAccessToken(String token) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -19,6 +23,22 @@ class AuthController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(_userDataKey, jsonEncode(userModel.toJson()));
     userData = userModel;
+  }
+  static Future<void> saveotp(String email, String otp) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(_otpKey, otp);
+    otpData = otp;
+  }
+  static Future<void> saveverifiedemail(String verifiedEmail) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString(_verifiedEmailKey, verifiedEmail);
+    verifiedEmailData = verifiedEmail;
+  }
+  static Future<String?> getverifiedemail() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? verifiedEmail = sharedPreferences.getString(_verifiedEmailKey);
+    verifiedEmailData = verifiedEmail;
+    return verifiedEmail;
   }
 
   static Future<String?> getAccessToken() async {
