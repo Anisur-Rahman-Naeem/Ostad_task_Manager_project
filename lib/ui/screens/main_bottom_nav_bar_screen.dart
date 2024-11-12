@@ -8,6 +8,8 @@ import 'package:task_manager/ui/utils/app_colors.dart';
 import '../widgets/tm_app_bar.dart';
 
 class MainBottomNavBarScreen extends StatefulWidget {
+  static const String name = '/home';
+
   const MainBottomNavBarScreen({super.key});
 
   @override
