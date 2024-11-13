@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:task_manager/ui/controllers/auth_controller.dart';
+import 'package:task_manager/ui/controllers/pick_image_controller.dart';
 import 'package:task_manager/ui/controllers/profile_screen_controller.dart';
 import 'package:task_manager/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:task_manager/ui/widgets/snack_bar_message.dart';
@@ -22,7 +22,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  XFile? _selectedImage;
   @override
   void initState() {
     super.initState();
@@ -142,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _lastNameTEController.text.trim(),
         _phoneTEController.text.trim(),
         _passwordTEController.text,
-        _selectedImage);
+        Get.find<PickImageController>().selectedImage);
     if (result) {
       showSnackBarMessage(context, 'Profile has been updated!');
     } else {
@@ -180,27 +179,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               width: 8,
             ),
-            Text(_getSelectedPhotoTitle()),
+            GetBuilder<PickImageController>(
+              builder: (controller) {
+                return Text(controller.selectedImage?.name ?? "Select photo");
+              }
+            ),
           ],
         ),
       ),
     );
   }
 
-  String _getSelectedPhotoTitle() {
-    if (_selectedImage != null) {
-      return _selectedImage!.name;
-    }
-    return "Select Photo";
-  }
+  // String _getSelectedPhotoTitle() {
+  //   if (Get.find<PickImageController>().selectedImage != null) {
+  //     return Get.find<PickImageController>().selectedImage!.name;
+  //   }
+  //   return "Select Photo";
+  // }
 
+  //todo: needs clarification if I need to do anything with getx in this method
   Future<void> _pickImage() async {
-    ImagePicker _imagePicker = ImagePicker();
-    XFile? pickedImage =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      _selectedImage = pickedImage;
-      setState(() {});
+    final bool result = await Get.find<PickImageController>().pickImage();
+    if (result) {
+      showSnackBarMessage(context, "image successfully picked");
+    }else {
+      showSnackBarMessage(context, "something is wrong");
     }
   }
 }

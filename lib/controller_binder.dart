@@ -4,6 +4,7 @@ import 'package:task_manager/ui/controllers/cancelled_task_controller.dart';
 import 'package:task_manager/ui/controllers/completed_task_controller.dart';
 import 'package:task_manager/ui/controllers/forgot_password_email_screen_controller.dart';
 import 'package:task_manager/ui/controllers/new_task_list_controller.dart';
+import 'package:task_manager/ui/controllers/pick_image_controller.dart';
 import 'package:task_manager/ui/controllers/profile_screen_controller.dart';
 import 'package:task_manager/ui/controllers/progress_task_controller.dart';
 import 'package:task_manager/ui/controllers/reset_password_controller.dart';
@@ -27,5 +28,6 @@ class ControllerBinder extends Bindings {
     Get.put(ForgotPasswordEmailScreenController());
     Get.put(VerifyOtpController());
     Get.put(ResetPasswordController());
+    Get.put(PickImageController());
   }
 }

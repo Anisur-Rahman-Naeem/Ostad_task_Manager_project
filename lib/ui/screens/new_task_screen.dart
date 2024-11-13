@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/ui/controllers/new_task_list_controller.dart';
 import 'package:task_manager/ui/controllers/task_count_controller.dart';
-import 'package:task_manager/ui/controllers/verify_otp_controller.dart';
 import 'package:task_manager/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:task_manager/ui/widgets/snack_bar_message.dart';
@@ -108,6 +107,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
+  //todo: needs clarification if I need to do anything with getx in this method
   List<TaskSummaryCard> _getTaskSummaryCardList() {
     List<TaskSummaryCard> taskSummaryCardList = [];
     for (TaskStatusModel t in Get.find<TaskCountController>().TaskStatusCountList) {
