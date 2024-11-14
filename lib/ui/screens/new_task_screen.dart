@@ -107,7 +107,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  //todo: needs clarification if I need to do anything with getx in this method
   List<TaskSummaryCard> _getTaskSummaryCardList() {
     List<TaskSummaryCard> taskSummaryCardList = [];
     for (TaskStatusModel t in Get.find<TaskCountController>().TaskStatusCountList) {

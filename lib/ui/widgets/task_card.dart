@@ -92,7 +92,7 @@ class _TaskCardState extends State<TaskCard> {
             title: const Text('Edit Status'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              children: ['New', 'Completed', 'Progress'].map((e) {
+              children: ['New', 'Completed', 'Cancelled','Progress'].map((e) {
                 return ListTile(
                   onTap: () {
                     _changeStatus(e);
