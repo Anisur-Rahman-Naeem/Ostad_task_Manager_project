@@ -49,7 +49,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         return TaskCard(
                           taskModel: controller.taskList[index],
                           onRefreshList: _getNewTaskListAndTaskStatusCount,
-                          //todo: when onRefreshList will be triggered while the app is running (needs explanation)
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

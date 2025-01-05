@@ -11,13 +11,16 @@ class ResetPasswordController extends GetxController {
   bool get inProgress => _inProgress;
   String? get errorMessage => _errorMessage;
 
+  final AuthController authController = Get.put(AuthController());
+
+
   Future<bool> resettingPassword(String password) async {
     bool isSuccess = false;
     _inProgress = true;
     update();
     Map<String, dynamic>? requestBody = {
-      "email":AuthController.verifiedEmailData,
-      "OTP": AuthController.otpData,
+      "email":authController.verifiedEmailData,
+      "OTP": authController.otpData,
       "password":password,
     };
     NetworkResponse response = await NetworkCaller.postRequest(url: Urls.recoverPasswordStatus,body: requestBody);

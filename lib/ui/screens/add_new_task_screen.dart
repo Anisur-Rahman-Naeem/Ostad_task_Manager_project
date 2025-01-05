@@ -30,7 +30,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
           Navigator.pop(context, _shouldRefreshPreviousPage);
       },
       child: Scaffold(
-        appBar: const TMAppBar(),
+        appBar: TMAppBar(),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24),

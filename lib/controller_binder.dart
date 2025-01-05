@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:task_manager/ui/controllers/add_new_task_controller.dart';
+import 'package:task_manager/ui/controllers/auth_controller.dart';
 import 'package:task_manager/ui/controllers/bottom_nav_bar_controller.dart';
 import 'package:task_manager/ui/controllers/cancelled_task_controller.dart';
 import 'package:task_manager/ui/controllers/completed_task_controller.dart';
@@ -31,5 +32,6 @@ class ControllerBinder extends Bindings {
     Get.put(ResetPasswordController());
     Get.put(PickImageController());
     Get.put(BottomNavBarController());
+    Get.put(AuthController());
   }
 }

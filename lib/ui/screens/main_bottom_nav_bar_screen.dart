@@ -5,7 +5,6 @@ import 'package:task_manager/ui/screens/cancelled_task_screen.dart';
 import 'package:task_manager/ui/screens/completed_task_screen.dart';
 import 'package:task_manager/ui/screens/new_task_screen.dart';
 import 'package:task_manager/ui/screens/progress_task_screen.dart';
-import 'package:task_manager/ui/utils/app_colors.dart';
 
 import '../widgets/tm_app_bar.dart';
 
@@ -29,7 +28,7 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TMAppBar(),
+      appBar: TMAppBar(),
       body: GetBuilder<BottomNavBarController>(
         builder: (controller) {
           return _screens[controller.selectedIndex];

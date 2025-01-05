@@ -22,6 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final AuthController authController = Get.put(AuthController());
+
   @override
   void initState() {
     super.initState();
@@ -29,16 +31,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _setUserData() {
-    _emailTEController.text = AuthController.userData?.email ?? '';
-    _firstNameTEController.text = AuthController.userData?.firstName ?? '';
-    _lastNameTEController.text = AuthController.userData?.lastName ?? '';
-    _phoneTEController.text = AuthController.userData?.mobile ?? '';
+    _emailTEController.text = authController.userData.value?.email ?? '';
+    _firstNameTEController.text = authController.userData.value?.firstName ?? '';
+    _lastNameTEController.text = authController.userData.value?.lastName ?? '';
+    _phoneTEController.text = authController.userData.value?.mobile ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TMAppBar(
+      appBar: TMAppBar(
         isProfileScreenOpen: true,
       ),
       body: SingleChildScrollView(
@@ -144,6 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Get.find<PickImageController>().selectedImage);
     if (result) {
       showSnackBarMessage(context, 'Profile has been updated!');
+      await authController.getUserData();
+      setState(() {});
+
     } else {
       showSnackBarMessage(context, Get.find<UpdateProfileController>().errorMessage!);
     }
@@ -197,7 +202,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //   return "Select Photo";
   // }
 
-  //todo: needs clarification if I need to do anything with getx in this method
   Future<void> _pickImage() async {
     final bool result = await Get.find<PickImageController>().pickImage();
     if (result) {

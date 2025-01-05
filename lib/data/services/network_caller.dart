@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get.dart' as gets;
 import 'package:http/http.dart';
 import 'package:task_manager/app.dart';
 import 'package:task_manager/data/models/network_response.dart';
@@ -8,11 +10,13 @@ import 'package:task_manager/ui/controllers/auth_controller.dart';
 import 'package:task_manager/ui/screens/sign_in_screen.dart';
 
 class NetworkCaller {
+  final AuthController authController = gets.Get.put(AuthController());
+
   static Future<NetworkResponse> getRequest({required String url}) async {
     try {
       Uri uri = Uri.parse(url);
       Map<String, String> headers = {
-        'token': AuthController.accessToken.toString()
+        'token': AuthController.accessToken.value.toString()
       };
       printRequest(url, null, headers);
       final Response response = await get(uri,headers: headers);
@@ -105,7 +109,7 @@ class NetworkCaller {
   }
 
   static Future<void> _moveToLogin() async {
-    await AuthController.clearUserData();
+    // await authController.clearUserData();
     Navigator.pushAndRemoveUntil(
       TaskManager.navigatorKey.currentContext!,
       MaterialPageRoute(builder: (context) => const SignInScreen()),

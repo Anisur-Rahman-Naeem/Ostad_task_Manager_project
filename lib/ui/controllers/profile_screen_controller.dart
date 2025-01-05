@@ -17,6 +17,9 @@ class UpdateProfileController extends GetxController {
   bool get inProgress => _inProgress;
   String? get errorMessage => _errorMessage;
 
+  final AuthController authController = Get.put(AuthController());
+
+
   Future<bool> updateProfile(String email, String firstName, String lastName,
       String mobile, String password, XFile? image) async {
     bool isSuccess = false;
@@ -47,7 +50,9 @@ class UpdateProfileController extends GetxController {
 
     if (response.isSuccess) {
       UserModel userModel = UserModel.fromJson(requestBody);
-      AuthController.saveUserData(userModel);
+      await authController.saveUserData(userModel);
+      await authController.getUserData();
+      update();
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;

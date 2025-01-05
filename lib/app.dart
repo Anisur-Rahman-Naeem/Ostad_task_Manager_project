@@ -20,11 +20,12 @@ class TaskManager extends StatelessWidget {
         SplashScreen.name: (context) => const SplashScreen(),
         MainBottomNavBarScreen.name : (context) => const MainBottomNavBarScreen()
       },
+
       theme: ThemeData(
         colorSchemeSeed: AppColors.themeColor,
         textTheme: const TextTheme(),
         inputDecorationTheme: _inputDecorationTheme(),
-        elevatedButtonTheme: _elevatedButtonThemeData()
+        elevatedButtonTheme: _elevatedButtonThemeData(),
       ),
     );
   }

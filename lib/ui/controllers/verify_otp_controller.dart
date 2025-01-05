@@ -17,14 +17,16 @@ class VerifyOtpController extends GetxController {
   }
   String? get errorMessage => _errorMessage;
 
+  final AuthController authController = Get.put(AuthController());
+
   Future<bool> verifyOtp() async {
     bool isSuccess = false;
     _inProgress = true;
     NetworkResponse response = await NetworkCaller.getRequest(
         url: Urls.verifyOtpStatus(
-            AuthController.verifiedEmailData.toString(), otpCode!));
+            authController.verifiedEmailData.toString(), otpCode!));
     if (response.isSuccess) {
-      await AuthController.saveotp(AuthController.verifiedEmailData.toString(),otpCode!);
+      await authController.saveotp(authController.verifiedEmailData.toString(),otpCode!);
       isSuccess = true;
     }else {
       _errorMessage = response.errorMessage;

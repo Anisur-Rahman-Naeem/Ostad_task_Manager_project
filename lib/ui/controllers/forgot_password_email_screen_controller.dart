@@ -14,6 +14,8 @@ class ForgotPasswordEmailScreenController extends GetxController {
 
   String? get errorMessage => _errorMessage;
 
+  final AuthController authController = Get.put(AuthController());
+
   Future<bool> emailVerify(String email) async {
   bool isSuccess = false;
     _inProgress = true;
@@ -21,7 +23,7 @@ class ForgotPasswordEmailScreenController extends GetxController {
     final NetworkResponse response =
     await NetworkCaller.getRequest(url: Urls.verifyEmailStatus(email));
     if (response.isSuccess) {
-      await AuthController.saveverifiedemail(email);
+      await authController.saveverifiedemail(email);
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
