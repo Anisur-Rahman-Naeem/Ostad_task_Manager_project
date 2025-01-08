@@ -10,11 +10,19 @@ class SignInController extends GetxController {
 
   String? _errorMessage;
 
+  bool passwordShow = false;
+
   String? get errorMessage => _errorMessage;
 
   bool get inProgress => _inProgress;
 
   final AuthController authController = Get.put(AuthController());
+
+
+  void onShowTapped() {
+    passwordShow = !passwordShow;
+    update();
+  }
 
 
   Future<bool> signIn(String email, String password) async {

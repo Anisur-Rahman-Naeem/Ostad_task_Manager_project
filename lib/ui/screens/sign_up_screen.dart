@@ -112,17 +112,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: _passwordTEController,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            obscureText: true,
-            decoration: const InputDecoration(hintText: 'Password'),
-            validator: (String? value) {
-              if (value?.isEmpty ?? true) {
-                return 'Enter your password';
-              }
-              return null;
-            },
+          GetBuilder<SignUpController>(
+            builder: (controller) {
+              return TextFormField(
+                controller: _passwordTEController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                obscureText: controller.passwordShow,
+                decoration: InputDecoration(hintText: 'Password',
+                suffixIcon: TextButton(
+                  onPressed: () {
+                    controller.onShowTapped();
+                  },
+                  child: (controller.passwordShow == true)
+                      ? const Text(
+                    "Show",
+                    style: TextStyle(color: Colors.grey),
+                  )
+                      : const Text(
+                    "Show",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                ),
+                validator: (String? value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Enter your password';
+                  }
+                  return null;
+                },
+              );
+            }
           ),
           const SizedBox(height: 24),
           GetBuilder<SignUpController>(

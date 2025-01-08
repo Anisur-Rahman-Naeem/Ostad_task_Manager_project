@@ -107,9 +107,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
                 const SizedBox(height: 8),
-                TextFormField(
-                  controller: _passwordTEController,
-                  decoration: const InputDecoration(hintText: 'Password'),
+                GetBuilder<UpdateProfileController>(
+                  builder: (controller) {
+                    return TextFormField(
+                      controller: _passwordTEController,
+                      obscureText: controller.passwordShow,
+                      decoration: InputDecoration(hintText: 'Password',
+                        suffixIcon: TextButton(
+                          onPressed: () {
+                            controller.onShowTapped();
+                          },
+                          child: (controller.passwordShow == true)
+                              ? const Text(
+                            "Show",
+                            style: TextStyle(color: Colors.grey),
+                          )
+                              : const Text(
+                            "Show",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 ),
                 const SizedBox(height: 8),
                 GetBuilder<UpdateProfileController>(

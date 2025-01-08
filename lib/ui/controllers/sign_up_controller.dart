@@ -7,11 +7,18 @@ class SignUpController extends GetxController {
 
   bool _inProgress = false;
 
+  bool passwordShow = true;
+
   bool get inProgress => _inProgress;
 
   String? _errorMessage;
 
   String? get errorMessage => _errorMessage;
+
+  void onShowTapped() {
+    passwordShow = !passwordShow;
+    update();
+  }
 
   Future<bool> signUp(String email, String firstName, String lastName, String mobile, String password) async {
     bool isSuccess = false;

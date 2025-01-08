@@ -92,35 +92,51 @@ class _SignInScreenState extends State<SignInScreen> {
             },
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _passwordTEController,
-            obscureText: true,
-            decoration: const InputDecoration(hintText: 'Password'),
-            validator: (String? value) {
-              if (value?.isEmpty ?? true) {
-                return 'Enter your password';
-              }
-              if (value!.length <= 6) {
-                return 'Enter a password more than 6 characters';
-              }
-
-              return null;
-            },
-          ),
-          const SizedBox(height: 24),
-          GetBuilder<SignInController>(
-            builder: (controller) {
-              return Visibility(
-                visible: controller.inProgress == false,
-                replacement: const CenteredCircularProgressIndicator(),
-                child: ElevatedButton(
-                  onPressed: _onTapNextButton,
-                  child: const Icon(Icons.arrow_circle_right_outlined),
+          GetBuilder<SignInController>(builder: (controller) {
+            return TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: _passwordTEController,
+              obscureText: controller.passwordShow,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                suffixIcon: TextButton(
+                  onPressed: () {
+                    controller.onShowTapped();
+                  },
+                  child: (controller.passwordShow == true)
+                      ? const Text(
+                          "Show",
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      : const Text(
+                          "Show",
+                          style: TextStyle(color: Colors.black),
+                        ),
                 ),
-              );
-            }
-          ),
+              ),
+              validator: (String? value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Enter your password';
+                }
+                if (value!.length <= 6) {
+                  return 'Enter a password more than 6 characters';
+                }
+
+                return null;
+              },
+            );
+          }),
+          const SizedBox(height: 24),
+          GetBuilder<SignInController>(builder: (controller) {
+            return Visibility(
+              visible: controller.inProgress == false,
+              replacement: const CenteredCircularProgressIndicator(),
+              child: ElevatedButton(
+                onPressed: _onTapNextButton,
+                child: const Icon(Icons.arrow_circle_right_outlined),
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -174,10 +190,11 @@ class _SignInScreenState extends State<SignInScreen> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const MainBottomNavBarScreen()),
-            (_) => false,
+        (_) => false,
       );
     } else {
-      showSnackBarMessage(context, Get.find<SignInController>().errorMessage!, true);
+      showSnackBarMessage(
+          context, Get.find<SignInController>().errorMessage!, true);
     }
   }
 }

@@ -18,7 +18,6 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -40,27 +39,57 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             Expanded(
               child: GetBuilder<NewTaskListController>(
                 builder: (controller) {
-                  return Visibility(
-                    visible: !controller.inProgress,
-                    replacement: const CenteredCircularProgressIndicator(),
-                    child: ListView.separated(
-                      itemCount: controller.taskList.length,
-                      itemBuilder: (context, index) {
-                        return TaskCard(
-                          taskModel: controller.taskList[index],
-                          onRefreshList: _getNewTaskListAndTaskStatusCount,
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 8,
-                        );
-                      },
-                    ),
+                  if (controller.inProgress) {
+                    // Show loading indicator when tasks are loading
+                    return const CenteredCircularProgressIndicator();
+                  }
+
+                  if (controller.taskList.isEmpty) {
+                    // Show "No Tasks" message when the list is empty
+                    return const Center(
+                      child: Text(
+                        "No New Tasks",
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                    );
+                  }
+
+                  // Show task list when there are tasks
+                  return ListView.separated(
+                    itemCount: controller.taskList.length,
+                    itemBuilder: (context, index) {
+                      return TaskCard(
+                        taskModel: controller.taskList[index],
+                        onRefreshList: _getNewTaskListAndTaskStatusCount,
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: 8);
+                    },
                   );
-                }
+                },
               ),
-            )
+
+              // return Visibility(
+              //   visible: !controller.inProgress,
+              //   replacement: const CenteredCircularProgressIndicator(),
+              //
+              //   child: ListView.separated(
+              //     itemCount: controller.taskList.length,
+              //     itemBuilder: (context, index) {
+              //       return TaskCard(
+              //         taskModel: controller.taskList[index],
+              //         onRefreshList: _getNewTaskListAndTaskStatusCount,
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) {
+              //       return const SizedBox(
+              //         height: 8,
+              //       );
+              //     },
+              //   ),
+              // );
+            ),
           ],
         ),
       ),
@@ -89,26 +118,25 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   Widget _buildSummarySection() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GetBuilder<TaskCountController>(
-        builder: (controller) {
-          return Visibility(
-            visible: controller.getTaskStatusCountListInProgress == false,
-            replacement: const CenteredCircularProgressIndicator(),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: _getTaskSummaryCardList(),
-              ),
+      child: GetBuilder<TaskCountController>(builder: (controller) {
+        return Visibility(
+          visible: controller.getTaskStatusCountListInProgress == false,
+          replacement: const CenteredCircularProgressIndicator(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: _getTaskSummaryCardList(),
             ),
-          );
-        }
-      ),
+          ),
+        );
+      }),
     );
   }
 
   List<TaskSummaryCard> _getTaskSummaryCardList() {
     List<TaskSummaryCard> taskSummaryCardList = [];
-    for (TaskStatusModel t in Get.find<TaskCountController>().TaskStatusCountList) {
+    for (TaskStatusModel t
+        in Get.find<TaskCountController>().TaskStatusCountList) {
       taskSummaryCardList
           .add(TaskSummaryCard(title: t.sId!, count: t.sum ?? 0));
     }
@@ -116,21 +144,25 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   Future<void> _getNewTaskList() async {
-    final bool result = await Get.find<NewTaskListController>().getNewTaskList();
+    final bool result =
+        await Get.find<NewTaskListController>().getNewTaskList();
     if (result == false) {
-      showSnackBarMessage(context, Get.find<NewTaskListController>().errorMessage!, true);
+      showSnackBarMessage(
+          context, Get.find<NewTaskListController>().errorMessage!, true);
     }
   }
 
-  _getNewTaskListAndTaskStatusCount(){
+  _getNewTaskListAndTaskStatusCount() {
     _getNewTaskList();
     _getTaskStatusCount();
   }
 
   Future<void> _getTaskStatusCount() async {
-    final bool result = await Get.find<TaskCountController>().getTaskStatusCount();
+    final bool result =
+        await Get.find<TaskCountController>().getTaskStatusCount();
     if (result == false) {
-      showSnackBarMessage(context, Get.find<TaskCountController>().errorMessage!, true);
+      showSnackBarMessage(
+          context, Get.find<TaskCountController>().errorMessage!, true);
     }
   }
 }

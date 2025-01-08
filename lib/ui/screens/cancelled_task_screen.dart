@@ -24,31 +24,59 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<CancelledTaskController>(
       builder: (controller) {
-        return Visibility(
-          visible: !controller.inProgress,
-          replacement: const CenteredCircularProgressIndicator(),
-          child: RefreshIndicator(
-            onRefresh: () async {
-              _getCancelledTaskList();
-            },
-            child: ListView.separated(
-              itemCount: controller.cancelledTaskList.length,
-              itemBuilder: (context, index) {
-                return TaskCard(
-                  taskModel: controller.cancelledTaskList[index],
-                  onRefreshList: _getCancelledTaskList,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 8,
-                );
-              },
+        if (controller.inProgress) {
+          // Show loading indicator when tasks are loading
+          return const CenteredCircularProgressIndicator();
+        }
+
+        if (controller.cancelledTaskList.isEmpty) {
+          // Show "No Tasks" message when the list is empty
+          return const Center(
+            child: Text(
+              "No Cancelled Tasks",
+              style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
-          ),
+          );
+        }
+
+        // Show task list when there are tasks
+        return ListView.separated(
+          itemCount: controller.cancelledTaskList.length,
+          itemBuilder: (context, index) {
+            return TaskCard(
+              taskModel: controller.cancelledTaskList[index],
+              onRefreshList: _getCancelledTaskList,
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 8);
+          },
         );
-      }
+      },
     );
+        // return Visibility(
+        //   visible: !controller.inProgress,
+        //   replacement: const CenteredCircularProgressIndicator(),
+        //   child: RefreshIndicator(
+        //     onRefresh: () async {
+        //       _getCancelledTaskList();
+        //     },
+        //     child: ListView.separated(
+        //       itemCount: controller.cancelledTaskList.length,
+        //       itemBuilder: (context, index) {
+        //         return TaskCard(
+        //           taskModel: controller.cancelledTaskList[index],
+        //           onRefreshList: _getCancelledTaskList,
+        //         );
+        //       },
+        //       separatorBuilder: (BuildContext context, int index) {
+        //         return const SizedBox(
+        //           height: 8,
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // );
   }
 
   Future<void> _getCancelledTaskList() async {

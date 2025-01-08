@@ -12,6 +12,8 @@ class UpdateProfileController extends GetxController {
 
   bool _inProgress = false;
 
+  bool passwordShow = false;
+
   String? _errorMessage;
 
   bool get inProgress => _inProgress;
@@ -19,6 +21,11 @@ class UpdateProfileController extends GetxController {
 
   final AuthController authController = Get.put(AuthController());
 
+
+  void onShowTapped() {
+    passwordShow = !passwordShow;
+    update();
+  }
 
   Future<bool> updateProfile(String email, String firstName, String lastName,
       String mobile, String password, XFile? image) async {

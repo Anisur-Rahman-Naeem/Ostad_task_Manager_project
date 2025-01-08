@@ -23,37 +23,68 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<CompletedTaskController>(
       builder: (controller) {
-        return Visibility(
-          visible: !controller.inProgress,
-          replacement: const CenteredCircularProgressIndicator(),
-          child: RefreshIndicator(
-            onRefresh: () async{
-              _getCompletedTaskList();
-            },
-            child: ListView.separated(
-              itemCount: controller.completedTaskList.length,
-              itemBuilder: (context, index) {
-                return TaskCard(
-                  taskModel: controller.completedTaskList[index],
-                  onRefreshList: _getCompletedTaskList,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 8,
-                );
-              },
+        if (controller.inProgress) {
+          // Show loading indicator when tasks are loading
+          return const CenteredCircularProgressIndicator();
+        }
+
+        if (controller.completedTaskList.isEmpty) {
+          // Show "No Tasks" message when the list is empty
+          return const Center(
+            child: Text(
+              "No Completed Tasks",
+              style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
-          ),
+          );
+        }
+
+        // Show task list when there are tasks
+        return ListView.separated(
+          itemCount: controller.completedTaskList.length,
+          itemBuilder: (context, index) {
+            return TaskCard(
+              taskModel: controller.completedTaskList[index],
+              onRefreshList: _getCompletedTaskList,
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 8);
+          },
         );
-      }
+      },
     );
+    // return Visibility(
+    //   visible: !controller.inProgress,
+    //   replacement: const CenteredCircularProgressIndicator(),
+    //   child: RefreshIndicator(
+    //     onRefresh: () async{
+    //       _getCompletedTaskList();
+    //     },
+    //     child: ListView.separated(
+    //       itemCount: controller.completedTaskList.length,
+    //       itemBuilder: (context, index) {
+    //         return TaskCard(
+    //           taskModel: controller.completedTaskList[index],
+    //           onRefreshList: _getCompletedTaskList,
+    //         );
+    //       },
+    //       separatorBuilder: (BuildContext context, int index) {
+    //         return const SizedBox(
+    //           height: 8,
+    //         );
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 
   Future<void> _getCompletedTaskList() async {
-    final bool result = await Get.find<CompletedTaskController>().getCompletedTaskList();
+    final bool result = await Get.find<CompletedTaskController>()
+        .getCompletedTaskList();
     if (result == false) {
-      showSnackBarMessage(context, Get.find<CompletedTaskController>().errorMessage!, true);
+      showSnackBarMessage(context, Get
+          .find<CompletedTaskController>()
+          .errorMessage!, true);
     }
   }
 }
